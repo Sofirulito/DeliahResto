@@ -1,6 +1,5 @@
 const jwt = require('jwt-simple');
 const moment = require('moment');
-const { User } = require('../db');
 
 // verificar token
 const checkToken = (req, res, next) => {

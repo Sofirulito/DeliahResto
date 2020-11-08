@@ -1,18 +1,19 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
-const { User } = require('../../db');
+const db = require('../../models');
 const { check, validationResult } = require('express-validator');
 const moment = require('moment');
 const jwt = require('jwt-simple');
 const middleware = require('../middlewares')
 
 router.get('/', [ middleware.checkToken, middleware.adminRole ], async (req, res) => {
-    const users = await User.findAll();
-    res.json(users)
+    db.User.findAll({
+        include: [db.Orders]
+    }).then(allUsers => res.send(allUsers));
 });
 
 router.put('/:userId', [ middleware.checkToken, middleware.adminRole ], async (req, res) => {
-    const user = await User.findOne({ where: { id: req.params.userId } })
+    const user = await db.User.findOne({ where: { id: req.params.userId } })
     if (user) {
         await User.update(req.body, {
             where: { id: req.params.userId }
@@ -25,7 +26,7 @@ router.put('/:userId', [ middleware.checkToken, middleware.adminRole ], async (r
 })
 
 router.delete('/:userId',  [ middleware.checkToken, middleware.adminRole ], async (req, res) => {
-    const user = await User.findOne({ where: { id: req.params.userId } })
+    const user = await db.User.findOne({ where: { id: req.params.userId } })
     if(user){
         await User.destroy({
             where: { id: req.params.userId }
@@ -50,7 +51,7 @@ router.post('/register', [
     }
 
     req.body.password = bcrypt.hashSync(req.body.password, 10);
-    const user = await User.create(req.body)
+    const user = await db.User.create(req.body)
         .then(() => {
             res.status(201).json('Usuario creado')
         })
@@ -61,7 +62,7 @@ router.post('/register', [
 
 router.post(
     "/login", async (req, res) => {
-        const user = await User.findOne({ where: { email: req.body.email } });
+        const user = await db.User.findOne({ where: { email: req.body.email } });
         if (user) {
             const samePass = bcrypt.compareSync(req.body.password, user.password);
             if (samePass) {

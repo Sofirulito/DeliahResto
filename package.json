@@ -1,7 +1,7 @@
 {
   "name": "delilahresto",
   "version": "1.0.0",
-  "description": "Aplicacion para restaurante",
+  "description": "Aplicacion backend para restaurante",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js"
@@ -16,6 +16,7 @@
     "jwt-simple": "^0.5.6",
     "moment": "^2.29.1",
     "mysql2": "^2.2.5",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0"
   }
 }

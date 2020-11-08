@@ -1,11 +1,22 @@
-module.exports = (sequelize, type) => {
-    return sequelize.define('product',{
+module.exports = (sequelize, Datatypes) => {
+    const Products = sequelize.define('Products',{
         id: {
-            type: type.INTEGER,
+            type: Datatypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        name: type.STRING,
-        price: type.INTEGER,
-    })
+        name: Datatypes.STRING,
+        price: Datatypes.INTEGER,
+    });
+
+    Products.associate = function(models) {
+        Products.belongsToMany(models.Orders, {
+          through: 'ProductOrder',
+          as: 'orders',
+          foreignKey: 'productId',
+          otherKey: 'orderId'
+        });
+    }
+
+    return Products
 }

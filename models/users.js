@@ -1,23 +1,33 @@
-module.exports = (sequelize, type) => {
-    return sequelize.define('user',{
+module.exports = (sequelize, DataTypes) => {
+    const User = sequelize.define('User',{
         id: {
-            type: type.INTEGER,
+            type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
         username: {
-            type: type.STRING,
+            type: DataTypes.STRING,
             unique: true,
             allowNull: false,
         },
-        fullname: type.STRING,
+        fullname: DataTypes.STRING,
         email:  {
-            type: type.STRING,
+            type: DataTypes.STRING,
             unique: true,
             allowNull: false,
         },
-        phone: type.STRING,
-        password: type.STRING(150),
-        role: type.STRING
-    })
-}
+        phone: DataTypes.STRING,
+        password: DataTypes.STRING(150),
+        role: DataTypes.STRING
+    }, {});
+
+    User.associate = function (models) {
+        // associations can be defined here
+        User.hasMany(models.Orders, {
+            onDelete: "cascade"
+        });
+    };
+
+    return User;
+}; 
+

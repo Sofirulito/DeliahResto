@@ -2,9 +2,8 @@ const express = require('express');
 const app = express();
 const apiRouter = require('./routes/api')
 const bodyParser = require('body-parser');
-
-// Crea o levanta base de datos
-require("./db");
+const db = require('./models')
+const PORT = process.env.PORT || 3000;  
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,6 +15,9 @@ app.get('/', (req, res) => {
     res.send('Bienvenido a Deliah Resto')
 })
 
-app.listen(3000, () => {
-    console.log('Servidor ok')
+db.sequelize.sync().then(() => {
+    app.listen(PORT, () => {
+        console.log('Servidor ok')
+    })
 })
+
