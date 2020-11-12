@@ -17,3 +17,13 @@ Iniciar el servidor con nodemon
 ```
 ## Como usar
 - Importe la colección de APIS a postman (https://www.getpostman.com/collections/131ab3157c5512690fa2), en estas ya se encuentran configuradas algunas de las variables necesarias, para loguearse como administador puede usar los datos 'admin@admin.com - pass: 123545' o registrarse con el rol 'admin' para cada solicitud deberá ingresar el Token que se genera al loguearse en el Header de la solicitud.
+
+## Rutas y métodos
+
+- http://localhost:3000/users/login (POST)
+- http://localhost:3000/users/register (POST)
+- http://localhost:3000/users (GET)
+- http://localhost:3000/orders (GET, POST)
+- http://localhost:3000/orders/orderID (GET, PUT, DELETE)
+- http://localhost:3000/products (GET, POST)
+- http://localhost:3000/products/productID (GET, PUT, DELETE)

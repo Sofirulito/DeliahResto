@@ -12,6 +12,15 @@ router.post('/', [ middleware.checkToken, middleware.adminRole ], async (req, re
     res.json(product)
 });
 
+router.get('/:productId', [ middleware.checkToken, middleware.adminRole ], async (req, res) => {
+    db.Products.findAll({
+        where: {
+            id: req.params.productId
+        }
+    })
+    .then(Products => res.send(Products))
+});
+
 router.put('/:productId', [ middleware.checkToken, middleware.adminRole ], async (req, res) => {
     await db.Products.update(req.body, {
         where: { id: req.params.productId }
@@ -20,7 +29,7 @@ router.put('/:productId', [ middleware.checkToken, middleware.adminRole ], async
 })
 
 router.delete('/:productId', [ middleware.checkToken, middleware.adminRole ], async (req, res) => {
-    await db.Product.destroy({
+    await db.Products.destroy({
         where: { id: req.params.productId }
     });
     res.json({ success: 'El producto se ha borrado'})
